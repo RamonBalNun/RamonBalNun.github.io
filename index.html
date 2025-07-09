@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Obtener Ubicación</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f4f4f4;
+    }
+    #ubicacion {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Obtener Ubicación del Usuario</h1>
+  <button onclick="obtenerUbicacion()">Obtener ubicación</button>
+  <div id="ubicacion">Esperando ubicación...</div>
+
+  <script>
+    function obtenerUbicacion() {
+      const div = document.getElementById('ubicacion');
+
+      if (!navigator.geolocation) {
+        div.innerHTML = "Tu navegador no soporta geolocalización.";
+        return;
+      }
+
+      div.innerHTML = "Obteniendo ubicación...";
+
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          const acc = position.coords.accuracy;
+
+          div.innerHTML = `
+            <strong>Latitud:</strong> ${lat}<br>
+            <strong>Longitud:</strong> ${lon}<br>
+            <strong>Precisión:</strong> ±${acc} metros
+          `;
+        },
+        function (error) {
+          let mensaje = "Error al obtener la ubicación: ";
+
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              mensaje += "Permiso denegado.";
+              break;
+            case error.POSITION_UNAVAILABLE:
+              mensaje += "Ubicación no disponible.";
+              break;
+            case error.TIMEOUT:
+              mensaje += "Tiempo de espera agotado.";
+              break;
+            default:
+              mensaje += "Error desconocido.";
+              break;
+          }
+
+          div.innerHTML = mensaje;
+        }
+      );
+    }
+  </script>
+</body>
+</html>
