@@ -20,7 +20,6 @@
 </head>
 <body>
   <h1>Obtener Ubicación del Usuario</h1>
-  <button onclick="obtenerUbicacion()">Obtener ubicación</button>
   <div id="ubicacion">Esperando ubicación...</div>
 
   <script>
@@ -68,6 +67,9 @@
         }
       );
     }
+
+    // Llamar automáticamente al cargar la página
+    window.onload = obtenerUbicacion;
   </script>
 </body>
 </html>
